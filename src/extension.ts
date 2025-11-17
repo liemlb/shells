@@ -345,9 +345,14 @@ async function enterFlakeEnvironment() {
 		}
 
 		// Set Jupyter-specific settings
-		outputChannel.appendLine('Configuring Jupyter settings');
-		const jupyterConfig = vscode.workspace.getConfiguration('jupyter');
-		await jupyterConfig.update('notebookFileRoot', '${workspaceFolder}', vscode.ConfigurationTarget.Workspace);
+		const jupyterExtension = vscode.extensions.getExtension('ms-toolsai.jupyter');
+		if (jupyterExtension) {
+			outputChannel.appendLine('Configuring Jupyter settings');
+			const jupyterConfig = vscode.workspace.getConfiguration('jupyter');
+			await jupyterConfig.update('notebookFileRoot', '${workspaceFolder}', vscode.ConfigurationTarget.Workspace);
+		} else {
+			outputChannel.appendLine('Jupyter extension not installed - skipping Jupyter configuration');
+		}
 
 		isEnvironmentActive = true;
 		updateStatusBar(true);

@@ -2,6 +2,14 @@
 
 All notable changes to the "Nix Flake Environment Switcher" extension will be documented in this file.
 
+## [0.0.5] - 2025-11-17
+
+### Fixed
+- Error creating development when the jupyter extension is not installed
+
+### Technical Details
+- Check whether  `jupyterExtension` is installed before setting the jupyter environment kernel
+
 ## [0.0.4] - 2025-10-15
 
 ### Fixed
