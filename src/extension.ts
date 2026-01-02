@@ -62,13 +62,17 @@ async function isNixAvailable(): Promise<boolean> {
  * Securely extracts environment variables from nix develop
  */
 function getFlakeEnvironment(flakeDir: string): Promise<NodeJS.ProcessEnv> {
+	const config = vscode.workspace.getConfiguration('shells');
+	const impure = config.get<boolean>('impure');
+	const args = (impure) ? ['develop', flakeDir, '--impure', '--command', 'env'] : ['develop', flakeDir, '--command', 'env']
+
 	return new Promise((resolve, reject) => {
 		const env: NodeJS.ProcessEnv = {};
 		
-		outputChannel.appendLine(`[${new Date().toISOString()}] Running: nix develop ${flakeDir} --command env`);
+		outputChannel.appendLine(`[${new Date().toISOString()}] Running: nix develop ${flakeDir} ${(impure) ? '--impure' : ''} --command env`);
 		outputChannel.appendLine('='.repeat(80));
 		
-		const proc = spawn('nix', ['develop', flakeDir, '--command', 'env'], {
+		const proc = spawn('nix', args, {
 			cwd: flakeDir,
 			timeout: 60000, // 60 second timeout
 		});
