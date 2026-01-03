@@ -49,7 +49,12 @@
         "shells.impure": {
           "type": "boolean",
           "default": false,
-          "description": "allow impure environment (nix develop --impure)"
+          "description": "Allow impure flake evaluation (nix develop --impure)."
+        },
+        "shells.nixCommandExtraFlags": {
+          "type": "array",
+          "default": [],
+          "description": "Additional flags can be added via this option (e.g. ['--impure', '--fallback', '--refresh'])."
         }
       }
     }
